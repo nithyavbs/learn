@@ -3,22 +3,20 @@
 
 <head>
     <title>Reading JSON</title>
-<style>
-    table {
-  border-collapse: collapse;
-  width: 50%;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
 
-th {
-  text-align: center;
-  padding: 8px;
-  background-color: #c2aaaa;
-}
-</style>
+        th {
+            text-align: center;
+            padding: 8px;
+            background-color: #c2aaaa;
+        }
+    </style>
     <script>
-
-
         function sortTable() {
             var table, rows, switching, i, x, y, shouldSwitch;
             table = document.getElementById("studentsTable");
@@ -56,59 +54,20 @@ th {
         }
 
         function populateTable() {
-            var table = document.getElementById("studentsTable");
-
-            var students = [
-                {
-                    "name": "Nithya",
-                    "tamil": 89,
-                    "english": 81,
-                    "maths": 98,
-                    "science": 100,
-                    "social": 93
-                },
-                {
-                    "name": "Vignesh",
-                    "tamil": 88,
-                    "english": 75,
-                    "maths": 89,
-                    "science": 82,
-                    "social": 63
-                },
-                {
-                    "name": "Jana",
-                    "tamil": 90,
-                    "english": 78,
-                    "maths": 96,
-                    "science": 92,
-                    "social": 92
-                },
-                {
-                    "name": "Kovarthini",
-                    "tamil": 89,
-                    "english": 81,
-                    "maths": 83,
-                    "science": 83,
-                    "social": 70
-                },
-                {
-                    "name": "Vijayan",
-                    "tamil": 84,
-                    "english": 78,
-                    "maths": 99,
-                    "science": 87,
-                    "social": 85
-                },
-                {
-                    "name": "Kavitha",
-                    "tamil": 85,
-                    "english": 85,
-                    "maths": 100,
-                    "science": 99,
-                    "social": 75
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var students = JSON.parse(this.responseText);
+                    renderJsonData(students);
+                    sortTable();
                 }
-            ];
+            };
+            xmlhttp.open("GET", "students.json", true);
+            xmlhttp.send();
+        }
 
+        function renderJsonData(students) {
+            var table = document.getElementById("studentsTable");
             for (var i = 0; i < students.length; i++) {
                 var student = students[i];
                 var row = table.insertRow(i + 1);
@@ -121,13 +80,13 @@ th {
                 var col7 = row.insertCell(6);
                 var col8 = row.insertCell(7);
 
-                col2.style.textAlign = "center";
-                col3.style.textAlign = "center";
-                col4.style.textAlign = "center";
-                col5.style.textAlign = "center";
-                col6.style.textAlign = "center";
-                col7.style.textAlign = "center";
-                col8.style.textAlign = "center";
+                col2.style.textAlign = "right";
+                col3.style.textAlign = "right";
+                col4.style.textAlign = "right";
+                col5.style.textAlign = "right";
+                col6.style.textAlign = "right";
+                col7.style.textAlign = "right";
+                col8.style.textAlign = "right";
 
                 col1.innerHTML = student.name;
                 col2.innerHTML = student.tamil;
@@ -142,27 +101,24 @@ th {
                 col7.innerHTML = total;
                 col8.innerHTML = avg;
             }
-
-            sortTable();
         }
-
     </script>
 </head>
 
 <body onload="populateTable()">
     <table border="1" id="studentsTable" class="table" class="th">
-        <thead  text-align: left; padding: 8px; >
+        <thead text-align: left; padding: 8px;>
             <tr>
-            <th>Name</th>
-            <th>Tamil</th>
-            <th>English</th>
-            <th>Maths</th>
-            <th>Science</th>
-            <th>Social</th>
-            <th>Total</th>
-            <th>%</th>
-        </tr>
-    </thead>
+                <th>Name</th>
+                <th>Tamil</th>
+                <th>English</th>
+                <th>Maths</th>
+                <th>Science</th>
+                <th>Social</th>
+                <th>Total</th>
+                <th>%</th>
+            </tr>
+        </thead>
     </table>
 </body>
 
